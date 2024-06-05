@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: metro-dataset-parser
+  main:
+    web-application-type: none
+    banner-mode: off
+  codec:
+    max-in-memory-size: 10MB
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/metro_back'
+    username: 'postgres'
+    password: 'postgres'
