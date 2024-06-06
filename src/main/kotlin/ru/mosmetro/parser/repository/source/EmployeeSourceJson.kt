@@ -4,21 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Repository
-import ru.mosmetro.parser.mapper.EmployeeMapper
-import ru.mosmetro.parser.model.entity.EmployeeEntity
+import ru.mosmetro.parser.model.dto.EmployeeSourceDTO
 
 @Repository
 class EmployeeSourceJson(
-    private val objectMapper: ObjectMapper,
-    private val employeeMapper: EmployeeMapper
+    private val objectMapper: ObjectMapper
 ) : EmployeeSourceRepository {
 
-    override fun readEmployees(): List<EmployeeEntity> {
+    override fun readEmployees(): List<EmployeeSourceDTO> {
         val employeeSource = ClassPathResource(EMPLOYEE_SOURCE)
-
-        return objectMapper.readValue<List<Map<String, String>>>(employeeSource.inputStream)
-            .map { employeeMapper.sourceMapToEntity(it) }
-            .distinct()
+        return objectMapper.readValue(employeeSource.inputStream)
     }
 
     companion object {
