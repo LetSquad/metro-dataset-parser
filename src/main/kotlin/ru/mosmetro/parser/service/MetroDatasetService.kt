@@ -35,26 +35,26 @@ class MetroDatasetService(
         val metroStations: List<MetroStationSourceDTO> = metroStationSourceRepository.readMetroStations()
 
         metroStations.map { metroStationMapper.sourceDtoToLineEntity(it) }
-            .toSet()
+            .distinct()
             .forEach { metroLineTargetRepository.saveMetroLine(it) }
 
         metroStations.map { metroStationMapper.sourceDtoToEntity(it) }
-            .toSet()
+            .distinctBy { it.id }
             .forEach { metroStationTargetRepository.saveMetroStation(it) }
 
         metroStationTransferSourceRepository.readMetroStationTransfers()
             .map { metroStatTransferMapper.transferSourceDtoToEntity(it) }
-            .toSet()
+            .distinct()
             .forEach { metroStationTransferTargetRepository.saveMetroStationTrnasfer(it) }
 
         metroStationCrosswalkingSourceRepository.readMetroStationCrosswalkings()
             .map { metroStatTransferMapper.crosswalkingSourceDtoToEntity(it) }
-            .toSet()
+            .distinct()
             .forEach { metroStationTransferTargetRepository.saveMetroStationTrnasfer(it) }
 
         employeeSourceRepository.readEmployees()
             .map { employeeMapper.sourceDtoToEntity(it) }
-            .toSet()
+            .distinct()
             .forEach { employee ->
                 metroUserTargetRepository.saveUser(employee.userId)
                 employeeTargetRepository.saveEmployee(employee)

@@ -11,16 +11,18 @@ class MetroStationMapper {
     fun sourceDtoToEntity(station: MetroStationSourceDTO) = MetroStationEntity(
         id = station.id.toLong(),
         name = station.nameStation,
-        lineId = station.idLine.toLong()
+        lineId = retrieveLineId(station)
     )
 
     fun sourceDtoToLineEntity(station: MetroStationSourceDTO) = MetroLineEntity(
-        id = when (station.nameLine) {
-            "4А" -> 44
-            "8А" -> 88
-            "БКЛ(А)" -> 111
-            else -> station.idLine.toLong()
-        },
+        id = retrieveLineId(station),
         name = station.nameLine
     )
+
+    private fun retrieveLineId(station: MetroStationSourceDTO): Long = when (station.nameLine) {
+        "4А" -> 44
+        "8А" -> 88
+        "БКЛ(А)" -> 111
+        else -> station.idLine.toLong()
+    }
 }
