@@ -4,24 +4,28 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import ru.mosmetro.parser.mapper.EmployeeMapper
 import ru.mosmetro.parser.mapper.MetroStationMapper
+import ru.mosmetro.parser.mapper.MetroStationTransferMapper
 import ru.mosmetro.parser.model.dto.MetroStationSourceDTO
 import ru.mosmetro.parser.repository.source.EmployeeSourceRepository
+import ru.mosmetro.parser.repository.source.MetroStationCrosswalkingSourceRepository
 import ru.mosmetro.parser.repository.source.MetroStationSourceRepository
-import ru.mosmetro.parser.repository.target.EmployeeTargetRepository
-import ru.mosmetro.parser.repository.target.MetroLineTargetRepository
-import ru.mosmetro.parser.repository.target.MetroStationTargetRepository
-import ru.mosmetro.parser.repository.target.MetroUserTargetRepository
+import ru.mosmetro.parser.repository.source.MetroStationTransferSourceRepository
+import ru.mosmetro.parser.repository.target.*
 
 @Service
 class MetroDatasetService(
     private val metroStationMapper: MetroStationMapper,
+    private val metroStatTransferMapper: MetroStationTransferMapper,
     private val employeeMapper: EmployeeMapper,
 
     private val metroStationSourceRepository: MetroStationSourceRepository,
+    private val metroStationTransferSourceRepository: MetroStationTransferSourceRepository,
+    private val metroStationCrosswalkingSourceRepository: MetroStationCrosswalkingSourceRepository,
     private val employeeSourceRepository: EmployeeSourceRepository,
 
     private val metroLineTargetRepository: MetroLineTargetRepository,
     private val metroStationTargetRepository: MetroStationTargetRepository,
+    private val metroStationTransferTargetRepository: MetroStationTransferTargetRepository,
     private val metroUserTargetRepository: MetroUserTargetRepository,
     private val employeeTargetRepository: EmployeeTargetRepository
 ) {
@@ -32,15 +36,21 @@ class MetroDatasetService(
 
         metroStations.map { metroStationMapper.sourceDtoToLineEntity(it) }
             .toSet()
-            .forEach { line ->
-                metroLineTargetRepository.saveMetroLine(line)
-            }
+            .forEach { metroLineTargetRepository.saveMetroLine(it) }
 
         metroStations.map { metroStationMapper.sourceDtoToEntity(it) }
             .toSet()
-            .forEach { station ->
-                metroStationTargetRepository.saveMetroStation(station)
-            }
+            .forEach { metroStationTargetRepository.saveMetroStation(it) }
+
+        metroStationTransferSourceRepository.readMetroStationTransfers()
+            .map { metroStatTransferMapper.transferSourceDtoToEntity(it) }
+            .toSet()
+            .forEach { metroStationTransferTargetRepository.saveMetroStationTrnasfer(it) }
+
+        metroStationCrosswalkingSourceRepository.readMetroStationCrosswalkings()
+            .map { metroStatTransferMapper.crosswalkingSourceDtoToEntity(it) }
+            .toSet()
+            .forEach { metroStationTransferTargetRepository.saveMetroStationTrnasfer(it) }
 
         employeeSourceRepository.readEmployees()
             .map { employeeMapper.sourceDtoToEntity(it) }
