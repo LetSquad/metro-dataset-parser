@@ -4,5 +4,5 @@ import ru.mosmetro.parser.model.entity.EmployeeEntity
 
 interface EmployeeTargetRepository {
 
-    fun saveEmployee(employee: EmployeeEntity)
+    fun saveEmployee(e: EmployeeEntity)
 }

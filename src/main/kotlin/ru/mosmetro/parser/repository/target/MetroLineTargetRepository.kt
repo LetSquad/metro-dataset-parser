@@ -4,5 +4,5 @@ import ru.mosmetro.parser.model.entity.MetroLineEntity
 
 interface MetroLineTargetRepository {
 
-    fun saveMetroLine(metroLine: MetroLineEntity)
+    fun saveMetroLine(l: MetroLineEntity)
 }

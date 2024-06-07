@@ -7,15 +7,14 @@ import ru.mosmetro.parser.model.entity.EmployeeEntity
 @Repository
 class EmployeeTargetJdbc(private val jdbcTemplate: JdbcTemplate) : EmployeeTargetRepository {
 
-    override fun saveEmployee(employee: EmployeeEntity) {
+    override fun saveEmployee(e: EmployeeEntity) {
         jdbcTemplate.update(
                 "INSERT INTO employee" +
                         "(id, first_name, last_name, middle_name, sex, work_start, work_finish, shift_type, work_phone, " +
                         "personal_phone, employee_number, light_duties, rank_code, user_id) " +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            employee.id, employee.firstName, employee.lastName, employee.middleName, employee.sex.name, employee.workStart,
-            employee.workFinish, employee.shiftType, employee.workPhone, employee.personalPhone, employee.employeeNumber,
-            employee.lightDuties, employee.rankCode.name, employee.userId
+            e.id, e.firstName, e.lastName, e.middleName, e.sex.name, e.workStart, e.workFinish, e.shiftType,
+            e.workPhone, e.personalPhone, e.employeeNumber, e.lightDuties, e.rankCode.name, e.userId
         )
     }
 }

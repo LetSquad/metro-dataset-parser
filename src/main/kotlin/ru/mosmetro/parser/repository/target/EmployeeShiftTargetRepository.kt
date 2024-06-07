@@ -4,5 +4,5 @@ import ru.mosmetro.parser.model.entity.EmployeeShiftEntity
 
 interface EmployeeShiftTargetRepository {
 
-    fun saveEmployeeShift(shift: EmployeeShiftEntity)
+    fun saveEmployeeShift(s: EmployeeShiftEntity)
 }

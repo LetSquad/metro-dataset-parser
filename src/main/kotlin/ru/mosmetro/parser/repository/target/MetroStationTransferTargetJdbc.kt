@@ -9,11 +9,11 @@ class MetroStationTransferTargetJdbc(
     private val jdbcTemplate: JdbcTemplate
 ) : MetroStationTransferTargetRepository {
 
-    override fun saveMetroStationTrnasfer(transfer: MetroStationTransferEntity) {
+    override fun saveMetroStationTransfer(t: MetroStationTransferEntity) {
         jdbcTemplate.update(
             "INSERT INTO metro_station_transfer(start_station_id, finish_station_id, duration, is_crosswalking) " +
                     "VALUES (?, ?, ?, ?)",
-            transfer.startStationId, transfer.finishStationId, transfer.duration, transfer.isCrosswalking
+            t.startStationId, t.finishStationId, t.duration, t.isCrosswalking
         )
     }
 }

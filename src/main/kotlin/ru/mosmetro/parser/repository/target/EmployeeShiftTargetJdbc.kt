@@ -10,11 +10,11 @@ class EmployeeShiftTargetJdbc(
     private val jdbcTemplate: JdbcTemplate
 ) : EmployeeShiftTargetRepository {
 
-    override fun saveEmployeeShift(shift: EmployeeShiftEntity) {
+    override fun saveEmployeeShift(s: EmployeeShiftEntity) {
         jdbcTemplate.update(
             "INSERT INTO employee_shift(id, shift_date, work_start, work_finish, employee_id) " +
                     "VALUES (nextval('employee_shift_id_seq'), ?, ?, ?, ?)",
-            shift.shiftDate, shift.workStart, shift.workFinish, shift.employeeId
+            s.shiftDate, s.workStart, s.workFinish, s.employeeId
         )
     }
 }

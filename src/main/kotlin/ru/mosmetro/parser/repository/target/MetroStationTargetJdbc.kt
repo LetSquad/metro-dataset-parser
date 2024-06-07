@@ -9,10 +9,10 @@ class MetroStationTargetJdbc(
     private val jdbcTemplate: JdbcTemplate
 ) : MetroStationTargetRepository {
 
-    override fun saveMetroStation(station: MetroStationEntity) {
+    override fun saveMetroStation(s: MetroStationEntity) {
         jdbcTemplate.update(
             "INSERT INTO metro_station(id, name, line_id) VALUES (?, ?, ?)",
-            station.id, station.name, station.lineId
+            s.id, s.name, s.lineId
         )
     }
 }

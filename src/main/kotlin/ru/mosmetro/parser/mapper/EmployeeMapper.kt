@@ -22,11 +22,7 @@ class EmployeeMapper {
             firstName = fullName[FIRST_NAME_INDEX],
             lastName = fullName[LAST_NAME_INDEX],
             middleName = fullName[MIDDLE_NAME_INDEX],
-            sex = when (employee.sex) {
-                SEX_MALE -> SexEnum.MALE
-                SEX_FEMALE -> SexEnum.FEMALE
-                else -> SexEnum.MALE
-            },
+            sex = SexEnum.fromName(employee.sex),
             workStart = workStart,
             workFinish = workFinish,
             shiftType = employee.smena,
@@ -70,9 +66,6 @@ class EmployeeMapper {
 
         private const val TIME_WORK_START_INDEX = 0
         private const val TIME_WORK_FINISH_INDEX = 1
-
-        private const val SEX_MALE = "Мужской"
-        private const val SEX_FEMALE = "Женский"
 
         private const val RANK_SECTION_FOREMAN = "ЦУ"
         private const val RANK_CHIEF_INSPECTOR = "ЦСИ"

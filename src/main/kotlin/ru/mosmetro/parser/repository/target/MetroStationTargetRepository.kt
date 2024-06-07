@@ -4,5 +4,5 @@ import ru.mosmetro.parser.model.entity.MetroStationEntity
 
 interface MetroStationTargetRepository {
 
-    fun saveMetroStation(metroStation: MetroStationEntity)
+    fun saveMetroStation(s: MetroStationEntity)
 }
