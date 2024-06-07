@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.mosmetro.parser.mapper.EmployeeMapper
 import ru.mosmetro.parser.mapper.MetroStationMapper
 import ru.mosmetro.parser.mapper.MetroStationTransferMapper
+import ru.mosmetro.parser.model.dto.EmployeeSourceDTO
 import ru.mosmetro.parser.model.dto.MetroStationSourceDTO
 import ru.mosmetro.parser.repository.source.EmployeeSourceRepository
 import ru.mosmetro.parser.repository.source.MetroStationCrosswalkingSourceRepository
@@ -27,7 +28,8 @@ class MetroDatasetService(
     private val metroStationTargetRepository: MetroStationTargetRepository,
     private val metroStationTransferTargetRepository: MetroStationTransferTargetRepository,
     private val metroUserTargetRepository: MetroUserTargetRepository,
-    private val employeeTargetRepository: EmployeeTargetRepository
+    private val employeeTargetRepository: EmployeeTargetRepository,
+    private val employeeShiftTargetRepository: EmployeeShiftTargetRepository
 ) {
 
     @Transactional
@@ -52,12 +54,16 @@ class MetroDatasetService(
             .distinct()
             .forEach { metroStationTransferTargetRepository.saveMetroStationTrnasfer(it) }
 
-        employeeSourceRepository.readEmployees()
-            .map { employeeMapper.sourceDtoToEntity(it) }
+        val employees: List<EmployeeSourceDTO> = employeeSourceRepository.readEmployees()
+
+        employees.map { employeeMapper.sourceDtoToEntity(it) }
             .distinct()
             .forEach { employee ->
                 metroUserTargetRepository.saveUser(employee.userId)
                 employeeTargetRepository.saveEmployee(employee)
             }
+
+        employees.map { employeeMapper.sourceDtoToShiftEntity(it) }
+            .forEach { employeeShiftTargetRepository.saveEmployeeShift(it) }
     }
 }

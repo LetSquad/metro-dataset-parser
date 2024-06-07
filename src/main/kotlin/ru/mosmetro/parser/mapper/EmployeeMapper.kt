@@ -3,9 +3,11 @@ package ru.mosmetro.parser.mapper
 import org.springframework.stereotype.Component
 import ru.mosmetro.parser.model.dto.EmployeeSourceDTO
 import ru.mosmetro.parser.model.entity.EmployeeEntity
+import ru.mosmetro.parser.model.entity.EmployeeShiftEntity
 import ru.mosmetro.parser.model.enums.RankCode
 import ru.mosmetro.parser.model.enums.SexEnum
 import java.sql.Time
+import java.sql.Timestamp
 
 @Component
 class EmployeeMapper {
@@ -13,7 +15,7 @@ class EmployeeMapper {
     fun sourceDtoToEntity(employee: EmployeeSourceDTO): EmployeeEntity {
         val id: Long = employee.id.toLong()
         val fullName: List<String> = employee.fio.split(' ', '.')
-        val workTime: List<String> = employee.timeWork.split('-')
+        val (workStart, workFinish) = parseTimeWork(employee.timeWork)
 
         return EmployeeEntity(
             id = id,
@@ -25,8 +27,8 @@ class EmployeeMapper {
                 SEX_FEMALE -> SexEnum.FEMALE
                 else -> SexEnum.MALE
             },
-            workStart = Time.valueOf(workTime[TIME_WORK_START_INDEX] + ":00"),
-            workFinish = Time.valueOf(workTime[TIME_WORK_FINISH_INDEX] + ":00"),
+            workStart = workStart,
+            workFinish = workFinish,
             shiftType = employee.smena,
             workPhone = null,
             personalPhone = null,
@@ -39,6 +41,25 @@ class EmployeeMapper {
                 else -> RankCode.INSPECTOR
             },
             userId = id
+        )
+    }
+
+    fun sourceDtoToShiftEntity(employee: EmployeeSourceDTO): EmployeeShiftEntity {
+        val employeeId: Long = employee.id.toLong()
+        val (workStart, workFinish) = parseTimeWork(employee.timeWork)
+        return EmployeeShiftEntity(
+            shiftDate = Timestamp.valueOf(employee.date.atStartOfDay()),
+            workStart = workStart,
+            workFinish = workFinish,
+            employeeId = employeeId
+        )
+    }
+
+    private fun parseTimeWork(timeWork: String): Pair<Time, Time> {
+        val workTime: List<String> = timeWork.split('-')
+        return Pair(
+            Time.valueOf(workTime[TIME_WORK_START_INDEX] + ":00"),
+            Time.valueOf(workTime[TIME_WORK_FINISH_INDEX] + ":00")
         )
     }
 
