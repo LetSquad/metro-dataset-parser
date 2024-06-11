@@ -9,8 +9,20 @@ import ru.mosmetro.parser.mapper.PassengerOrderMapper
 import ru.mosmetro.parser.model.dto.EmployeeSourceDTO
 import ru.mosmetro.parser.model.dto.MetroStationSourceDTO
 import ru.mosmetro.parser.model.dto.PassengerOrderSourceDTO
-import ru.mosmetro.parser.repository.source.*
-import ru.mosmetro.parser.repository.target.*
+import ru.mosmetro.parser.repository.source.EmployeeSourceRepository
+import ru.mosmetro.parser.repository.source.MetroStationCrosswalkingSourceRepository
+import ru.mosmetro.parser.repository.source.MetroStationSourceRepository
+import ru.mosmetro.parser.repository.source.MetroStationTransferSourceRepository
+import ru.mosmetro.parser.repository.source.PassengerOrderSourceRepository
+import ru.mosmetro.parser.repository.target.EmployeeShiftTargetRepository
+import ru.mosmetro.parser.repository.target.EmployeeTargetRepository
+import ru.mosmetro.parser.repository.target.MetroLineTargetRepository
+import ru.mosmetro.parser.repository.target.MetroStationTargetRepository
+import ru.mosmetro.parser.repository.target.MetroStationTransferTargetRepository
+import ru.mosmetro.parser.repository.target.MetroUserTargetRepository
+import ru.mosmetro.parser.repository.target.PassengerOrderTargetRepository
+import ru.mosmetro.parser.repository.target.PassengerTargetRepository
+import ru.mosmetro.parser.repository.target.UserRefreshTokenTargetRepository
 
 @Service
 class MetroDatasetService(
@@ -29,6 +41,7 @@ class MetroDatasetService(
     private val metroStationTargetRepository: MetroStationTargetRepository,
     private val metroStationTransferTargetRepository: MetroStationTransferTargetRepository,
     private val metroUserTargetRepository: MetroUserTargetRepository,
+    private val refreshTokenRepository: UserRefreshTokenTargetRepository,
     private val employeeTargetRepository: EmployeeTargetRepository,
     private val employeeShiftTargetRepository: EmployeeShiftTargetRepository,
     private val passengerTargetRepository: PassengerTargetRepository,
@@ -63,6 +76,7 @@ class MetroDatasetService(
             .distinctBy { it.id }
             .forEach { employee ->
                 metroUserTargetRepository.saveUser(employee.userId)
+                refreshTokenRepository.saveRefreshToken(employee.userId.toString())
                 employeeTargetRepository.saveEmployee(employee)
             }
 

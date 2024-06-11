@@ -14,6 +14,6 @@ class MetroUserTargetJdbc(private val jdbcTemplate: JdbcTemplate) : MetroUserTar
     }
 
     companion object {
-        private const val TEMPORARY_PASSWORD = "temp"
+        private const val TEMPORARY_PASSWORD = "\$2a\$10\$64JTH0qGiYpeoHMe6ROSnee.qjBDbsV8kWPeE7sQXukJ4/KgJmG8G"
     }
 }
