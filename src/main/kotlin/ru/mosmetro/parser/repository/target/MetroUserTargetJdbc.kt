@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository
 @Repository
 class MetroUserTargetJdbc(private val jdbcTemplate: JdbcTemplate) : MetroUserTargetRepository {
 
-    override fun saveUser(id: Long) {
+    override fun saveUser(id: Long, login: String) {
         jdbcTemplate.update(
             "INSERT INTO metro_user(id, login, password, is_password_temporary) " +
-                    "VALUES (?, ?, ?, ?)", id, id, TEMPORARY_PASSWORD, true
+                    "VALUES (?, ?, ?, ?)", id, login, TEMPORARY_PASSWORD, true
         )
     }
 

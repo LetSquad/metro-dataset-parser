@@ -75,8 +75,8 @@ class MetroDatasetService(
         employees.map { employeeMapper.sourceDtoToEntity(it) }
             .distinctBy { it.id }
             .forEach { employee ->
-                metroUserTargetRepository.saveUser(employee.userId)
-                refreshTokenRepository.saveRefreshToken(employee.userId.toString())
+                metroUserTargetRepository.saveUser(employee.id, employee.workPhone)
+                refreshTokenRepository.saveRefreshToken(employee.workPhone)
                 employeeTargetRepository.saveEmployee(employee)
             }
 

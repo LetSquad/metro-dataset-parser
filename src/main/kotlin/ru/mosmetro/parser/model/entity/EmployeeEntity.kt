@@ -13,7 +13,7 @@ data class EmployeeEntity(
     val workStart: Time,
     val workFinish: Time,
     val shiftType: String,
-    val workPhone: String?,
+    val workPhone: String,
     val personalPhone: String?,
     val employeeNumber: Long,
     val lightDuties: Boolean,
