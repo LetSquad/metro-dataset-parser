@@ -16,7 +16,6 @@ class EmployeeMapper {
         val id: Long = employee.id.toLong()
         val fullName: List<String> = employee.fio.split(' ', '.')
         val (workStart, workFinish) = parseTimeWork(employee.timeWork)
-        val phone: String = (BASE_PHONE + id).toString()
 
         return EmployeeEntity(
             id = id,
@@ -27,7 +26,7 @@ class EmployeeMapper {
             workStart = workStart,
             workFinish = workFinish,
             shiftType = employee.smena,
-            workPhone = "+7${phone}",
+            workPhone = (BASE_PHONE + id).toString(),
             personalPhone = null,
             employeeNumber = id,
             lightDuties = false,
@@ -68,7 +67,7 @@ class EmployeeMapper {
         private const val TIME_WORK_START_INDEX = 0
         private const val TIME_WORK_FINISH_INDEX = 1
 
-        private const val BASE_PHONE = 9876543210
+        private const val BASE_PHONE = 79876543210
 
         private const val RANK_SECTION_FOREMAN = "ЦУ"
         private const val RANK_CHIEF_INSPECTOR = "ЦСИ"
