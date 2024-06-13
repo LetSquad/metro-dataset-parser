@@ -21,5 +21,7 @@ data class PassengerOrderEntity(
     val passengerId: Long,
     val passengerCategory: PassengerCategory,
     val startStationId: Long,
-    val finishStationId: Long
+    val finishStationId: Long,
+
+    val createdAt: Timestamp
 )

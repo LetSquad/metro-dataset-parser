@@ -39,7 +39,8 @@ class PassengerOrderMapper {
         passengerId = order.idPas.toLong(),
         passengerCategory = PassengerCategory.fromName(order.catPas),
         startStationId = order.idSt1,
-        finishStationId = order.idSt2
+        finishStationId = order.idSt2,
+        createdAt = Timestamp.valueOf(order.tpz)
     )
 
     fun sourceDtoToPassengerEntity(order: PassengerOrderSourceDTO) = PassengerEntity(
