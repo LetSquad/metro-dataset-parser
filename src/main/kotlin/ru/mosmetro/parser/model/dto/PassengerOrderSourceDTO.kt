@@ -16,10 +16,10 @@ data class PassengerOrderSourceDTO(
     val datetime: LocalDateTime,
 
     @JsonFormat(pattern = "HH:mm:ss")
-    val time3: LocalTime,
+    val time3: LocalTime?,
 
     @JsonFormat(pattern = "HH:mm:ss")
-    val time4: LocalTime,
+    val time4: LocalTime?,
 
     @JsonProperty("cat_pas")
     val catPas: String,

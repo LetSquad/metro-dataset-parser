@@ -16,6 +16,8 @@ data class PassengerOrderEntity(
     val orderTime: Timestamp,
     val startTime: Timestamp?,
     val finishTime: Timestamp?,
+    val cancelTime: Timestamp?,
+    val absenceTime: Timestamp?,
 
     val orderStatusCode: OrderStatus,
     val passengerId: Long,
