@@ -54,9 +54,62 @@ class PassengerOrderMapper {
 
     fun sourceDtoToPassengerEntity(order: PassengerOrderSourceDTO) = PassengerEntity(
         id = order.idPas.toLong(),
-        firstName = "Иван ${order.idPas}",
-        lastName = "Иванов",
+        firstName = PASSENGER_FIRST_NAMES.random(),
+        lastName = PASSENGER_LAST_NAMES.random(),
         sex = SexEnum.MALE.name,
         categoryCode = PassengerCategory.fromName(order.catPas)
     )
+
+    companion object {
+
+        private val PASSENGER_FIRST_NAMES = listOf(
+            "Иван",
+            "Петр",
+            "Павел",
+            "Алексей",
+            "Александр",
+            "Антон",
+            "Анатолий",
+            "Артем",
+            "Андрей",
+            "Юрий",
+            "Федор",
+            "Лев",
+            "Евгений",
+            "Никита",
+            "Михаил",
+            "Илья",
+            "Василий",
+            "Борис",
+            "Глеб",
+            "Николай",
+            "Роман",
+            "Марсель",
+            "Егор",
+            "Виктор"
+        )
+
+        private val PASSENGER_LAST_NAMES = listOf(
+            "Иванов",
+            "Петров",
+            "Сидоров",
+            "Пушкин",
+            "Толстой",
+            "Достоевский",
+            "Федоров",
+            "Чехов",
+            "Есенин",
+            "Попов",
+            "Репин",
+            "Поленов",
+            "Романов",
+            "Андреев",
+            "Базов",
+            "Онегин",
+            "Ожегов",
+            "Акопджанян",
+            "Летов",
+            "Смирнов"
+        )
+    }
 }
